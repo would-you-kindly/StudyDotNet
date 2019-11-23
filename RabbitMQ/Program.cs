@@ -83,7 +83,7 @@ namespace RabbitMQ
         {
             string originalMessage = "";
             model = GetRabbitChannel(exchangeName, queueName, routingKey);
-            BasicGetResult result = model.BasicGet(queueName, false);
+            BasicGetResult result = model.BasicGet(queueName, true);
             if (result == null)
             {
                 // В настоящее время нет доступных сообщений.
@@ -106,6 +106,7 @@ namespace RabbitMQ
                 BasicDeliverEventArgs basicDeliveryEventArgs = subscription.Next();
                 string messageContent = Encoding.UTF8.GetString(basicDeliveryEventArgs.Body);
                 //messagesTextBox.Invoke((MethodInvoker)delegate { messagesTextBox.Text += messageContent + "\r\n"; });
+                Console.WriteLine(messageContent);
                 subscription.Ack(basicDeliveryEventArgs);
             }
         }
